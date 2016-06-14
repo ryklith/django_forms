@@ -6,6 +6,6 @@ urlpatterns = [
     # url(r'^$', 'django_forms.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^market_list/', include('market_list.urls')),
+    url(r'^market_list/', include('market_list.urls', namespace='market_list')),
     url(r'^admin/', include(admin.site.urls)),
 ]

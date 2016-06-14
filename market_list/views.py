@@ -1,5 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.core.urlresolvers import reverse
 
 from .models import MarketListEntry, fill_default_market_list
 
@@ -12,5 +13,5 @@ def index(request):
 
 def fill_market_list(request):
     fill_default_market_list()
-    return index(request)
+    return HttpResponseRedirect(reverse('market_list:index'))
 
