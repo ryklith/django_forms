@@ -38,3 +38,8 @@ def fill_default_market_list():
 
     d = MarketListEntry(name="Dortmunder", price=47., position=3)
     d.save()
+
+
+def add_market_entry(name="", price=0, position=100):
+    a = MarketListEntry(name=name, price=price, position=position)
+    a.save()
