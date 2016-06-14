@@ -1,0 +1,14 @@
+{% if list %}
+    <ul>
+    {% for entry in list %}
+        <li>{{ entry.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No market entries are available.</p>
+{% endif %}
+
+<form action="{% url 'fill_market_list' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Reset to default market list"/>
+</form>
