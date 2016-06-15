@@ -30,16 +30,16 @@ class CompetitionRequest(models.Model):
 def fill_default_market_list():
     InsuranceQuote.objects.all().delete()
 
-    a = InsuranceQuote(name="Aachener", price=44., position=0)
+    a = InsuranceQuote(name="Aachener", price=44.)
     a.save()
 
-    b = InsuranceQuote(name="Berliner", price=45., position=1)
+    b = InsuranceQuote(name="Berliner", price=45.)
     b.save()
 
-    c = InsuranceQuote(name="Chemnitzer", price=46., position=2)
+    c = InsuranceQuote(name="Chemnitzer", price=46)
     c.save()
 
-    d = InsuranceQuote(name="Dortmunder", price=47., position=3)
+    d = InsuranceQuote(name="Dortmunder", price=47.)
     d.save()
 
 
@@ -72,11 +72,11 @@ def process_competition_request(comp_req):
                     comp_req.target_position += 1
                     if comp_req.target_position == len(market_data):
                         # no one to compare to, end of the list
-                        new_entry = InsuranceQuote(comp_req.name, comp_req.working_price)
-                        market_data.append(new_entry)
+                        new_entry = InsuranceQuote(name=comp_req.name, price=comp_req.working_price)
+                        new_entry.save()
                         break
                     else:
-                        add_request_to_market(market_data, comp_req, num_reqs)
+                        process_competition_request(comp_req)
                         break
                 else:
                     break
