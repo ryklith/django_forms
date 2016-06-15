@@ -2,17 +2,18 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 
-from .models import MarketListEntry, fill_default_market_list, add_market_entry
+from .models import InsuranceQuote, fill_default_market_list, process_competition_request
 from .forms import CompetitionRequestForm
 
 
 def get_context():
-    list = MarketListEntry.objects.order_by('position')
+    list = InsuranceQuote.objects.order_by('price')
     defaults = {'name': "Muenchner",
                 'working_price': 50,
                 'target_position': 0,
                 'fallback_rule': 'SH',
-                'working_price_reduction_interval': 0.01
+                'working_price_reduction_interval': 0.01,
+                'max_working_price_reduction': 10
                 }
     form = CompetitionRequestForm(initial=defaults)
     context = {'list': list, 'form': form}
@@ -29,10 +30,11 @@ def fill_market_list(request):
 
 
 def submit_request(request):
-    name = request.POST['name']
-    price = request.POST['working_price']
-    position = request.POST['target_position']
-    add_market_entry(name, price, position)
+    if request.method == 'POST':
+        form = CompetitionRequestForm(request.POST)
+        if form.is_valid():
+            process_competition_request(form.instance)
 
     return HttpResponseRedirect(reverse('market_list:index'), get_context())
+
 

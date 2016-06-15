@@ -1,8 +1,9 @@
 {% if list %}
-    <table border="1">
+    <table>
+        <tr><th>Position</th><th>Name</th><th>Price</th></tr>
     {% for entry in list %}
         <tr>
-        <td>{{ entry.position }}</td><td> {{ entry.name }}</td><td>{{ entry.price }}</td>
+        <td>{{ forloop.counter0 }}</td><td> {{ entry.name }}</td><td>{{ entry.price }}</td>
         </tr>
     {% endfor %}
     </table>
